@@ -1,0 +1,96 @@
+var express = require('express')
+var router = express.Router()
+
+var controllers = require('../controllers')
+
+router.get('/:resource', function(req,res,next){
+  var resource = req.params.resource
+
+  var controller = controllers[resource]
+  if(controller == null){
+    res.json({
+      confirmation:'fail',
+      message:'Invalid Resource'
+    })
+    return
+  }
+  // res.json({
+  //   confirmation:'success',
+  //   message: resource
+  // })
+  controller.find(req.query)
+  .then(function(entities){
+    console.log('Good in api route')
+    res.json({
+      confirmation:'success',
+      results: entities
+    })
+  })
+  .catch(function(err){
+    console.log('Bad in api route')
+    res.json({
+      confirmation:'fail',
+      message: err
+    })
+  })
+})
+
+router.get('/:resource/:id', function(req, res, next){
+  var resource = req.params.resource
+
+  var controller = controllers[resource]
+  if(controller == null){
+    res.json({
+      confirmation:'fail',
+      message:'Invalid Resource'
+    })
+    return
+  }
+
+  var id = req.params.id
+  console.log('Id got in api.js is: ' + id)
+  controller.findById(id)
+  .then(function(result){
+    res.json({
+      confirmation:'success',
+      result: result
+    })
+  })
+  .catch(function(err){
+    console.log('catch err in api.js')
+    console.log(err)
+    res.json({
+      confirmation:'fail',
+      message: resource + ' ' + id + ' Not found'
+    })
+  })
+})
+
+router.post('/:resource', function(req, res, next){
+  var resource = req.params.resource
+
+  var controller = controllers[resource]
+  if(controller == null){
+    res.json({
+      confirmation:'fail',
+      message:'Invalid Resource'
+    })
+    return
+  }
+
+  controller.create(req.body)
+  .then(function(result){
+    res.json({
+      confirmation:'success',
+      result: result
+    })
+  })
+  .catch(function(err){
+    res.json({
+      confirmation:'fail',
+      message: err
+    })
+  })
+})
+
+module.exports = router
