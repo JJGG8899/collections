@@ -13,5 +13,11 @@
       <input type="text" name="password" placeholder="password" ><br />
       <input type="submit" value="Submit">
     </form>
+
+    <h1>Create Bookmark </h1>
+    <form action="/api/bookmark" method="post">
+      <input type="text" name="url" placeholder="URL" ><br />
+      <input type="submit" value="Submit">
+    </form>
   </body>
 </html>

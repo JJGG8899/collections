@@ -9,6 +9,7 @@ require('dotenv').config();
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
+var scrape = require('./routes/scrape');
 
 // var dbUrl = 'mongodb://localhost/blog'
 // var dbUrl = 'mongodb://root:asdfgh@ds123050.mlab.com:23050/bookmark'
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/scrape', scrape);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
